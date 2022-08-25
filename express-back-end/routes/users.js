@@ -27,7 +27,6 @@ module.exports = (db) => {
 
   // Getting specific user's 3 shelves
   router.get('/:id/shelves', (req, res) => {
-    console.log('asking for ' + req.params.id + 'shelves');
     Promise.all([
       db.query(`
         SELECT isbn

@@ -13,9 +13,9 @@ export default function MainPage() {
   };
 
   useEffect(() => {
-    axios.get(`/api/clubs`).then((res) => {
+    axios.get(`/api/clubs`)
+    .then((res) => {
       setClubs(res.data.clubs);
-      console.log("CLUBS", clubs);
     });
   }, []);
 

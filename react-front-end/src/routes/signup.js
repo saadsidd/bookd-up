@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import Axios from "axios";
+import axios from "axios";
 import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import "./styles/signup.scss";
@@ -14,27 +14,19 @@ export default function SignUp() {
   const navigate = useNavigate();
 
   const register = () => {
-    Axios.post("/api/users", {
+    axios.post("/api/users", {
       email: emailAtReg,
       password: passwordAtReg,
       first_name: firstName,
       last_name: lastName,
     })
       .then((res) => {
-        console.log("signup:", res);
-        //for somereason the user is set to undefined so if i navigate to profile it will error out cuz an undefined user state is not valid
         setUser(res.data.user);
         navigate("/profile");
       })
       .catch((err) => {
-        console.log("ERROR: ====", err);
-      })
-      // .then((res) => {
-      //   navigate("/");
-      // })
-      // .catch((err) => {
-      //   console.log("ERROR: ====", err);
-      // });
+        console.log("ERROR: ", err);
+      });
   };
 
   return (

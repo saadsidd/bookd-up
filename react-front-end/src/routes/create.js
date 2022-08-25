@@ -20,7 +20,6 @@ export default function Create() {
         private: false
       })
       .then((res) => {
-        console.log("Create club",res)
         navigate("/profile");
       });
   };

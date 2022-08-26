@@ -10,6 +10,13 @@ The back end is built using [Express](https://github.com/expressjs/express) whic
 MatchBook🔥 is a Tinder-like feature for books, where the user is presented with books one by one to skip/save depending on the genre they choose. The 3D book view is created with [react-three-fiber](https://github.com/pmndrs/react-three-fiber). A [cors-anywhere](https://github.com/Rob--W/cors-anywhere) proxy runs alongside the Express server to allow using book cover images from Google Books API. [color-thief-react](https://github.com/jonyw4/color-thief-react) is used to obtain the cover's dominant color to use with the 3D book's back cover and spine.
 
 ## Screenshots
+![Search example](https://raw.githubusercontent.com/saadsidd/bookd-up/main/docs/search.gif)
+<p align="center">Searching for a book and adding it to a bookshelf</p>
+
+<br>
+
+![MatchBook example](https://raw.githubusercontent.com/saadsidd/bookd-up/main/docs/matchbook.gif)
+<p align="center">Using MatchBook🔥 to skip and save books</p>
 
 ## Getting Started
 1. Install dependencies for React and Express server using `npm install` inside their respective folders

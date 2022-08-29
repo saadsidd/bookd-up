@@ -1,0 +1,98 @@
+$wood_texture: url('../../public/textures/shelf-wood.jpg');
+
+$wall_width: 940px;
+$wall_background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6)), $wood_texture;
+$wall_translateZ: translateZ(100px);
+
+.shelf__container--outer {
+  width: 1000px;
+  height: 300px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding-left: 30px;
+  background-image: $wood_texture;
+}
+
+.shelf__container--inner {
+  width: 200px;
+  height: 200px;
+  perspective: 1000px;
+  perspective-origin: 480px;
+}
+
+.shelf {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  transform-style: preserve-3d;
+  transform: translateZ(-100px);
+}
+
+.shelf__wall {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+
+  border: 2px solid black;
+
+  line-height: 200px;
+  font-size: 40px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+}
+
+.shelf__wall--back {
+  width: $wall_width;
+  background-image: $wall_background;
+  transform: rotateY(180deg) $wall_translateZ;
+}
+
+.shelf__wall--top {
+  width: $wall_width;
+  background-image: $wall_background;
+  transform: rotateX(90deg) $wall_translateZ;
+}
+
+.shelf__wall--bottom {
+  width: $wall_width;
+  background-image: $wall_background;
+  transform: rotateX(-90deg) $wall_translateZ;
+}
+
+.shelf__wall--left {
+  background-image: $wall_background;
+  transform: rotateY(-90deg) $wall_translateZ;
+}
+
+.shelf__wall--right {
+  margin-left: 740px;
+  background-image: $wall_background;
+  transform: rotateY(90deg) $wall_translateZ;
+}
+
+.shelf__label {
+  width: 300px;
+  height: 40px;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0.4)), $wood_texture;
+
+  margin-left: 320px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 1px solid black;
+  box-shadow:
+    2px 2px 0.5em rgba(0, 0, 0, 0.55),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.55),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.5);
+  padding-top: 3px;
+
+  text-align: center;
+  font-size: x-large;
+  letter-spacing: 2px;
+  text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3), 0px -1px 0px rgba(0, 0, 0, 0.7);
+}

@@ -3,6 +3,7 @@ import { UserContext } from "../context/UserContext";
 import { cleanUpShelf, getBooksByISBN } from "../helpers/booksAPI";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import Bookshelf from "../components/Bookshelf";
 import BookCard from "../components/BookCard";
 import BookCardFull from "../components/BookCardFull";
 import Spinner from "../components/Spinner";
@@ -101,7 +102,6 @@ export default function Profile() {
         <h2 className="user-name">
           {user && user.first_name} {user && user.last_name}
         </h2>
-        <span></span>
       </div>
 
       <div className="user-club-header">
@@ -127,11 +127,18 @@ export default function Profile() {
         {(clubs.joined && clubs.joined.length > 0 && getClubs(clubs.joined)) || <div style={{width: '500px'}}>Join a bookclub to meet other book lovers just like you!</div>}
       </div>
 
-      <div className="user-shelves-header">
-        <h1 className="user-shelves">My Shelves</h1>
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+        <h1>My Bookshelves</h1>
+        <Bookshelf label="Currently Reading" />
+        <Bookshelf label="Want To Read" />
+        <Bookshelf label="Finished Reading" />
       </div>
 
-      <div className="user-shelves-section">
+      {/* <div className="user-shelves-header">
+        <h1 className="user-shelves">My Shelves</h1>
+      </div> */}
+
+      {/* <div className="user-shelves-section">
         <h2>Currently Reading</h2>
         <div className="user-shelves-container">
           {handleLoadShelf(shelves.current, 'Not currently reading a book')}
@@ -150,7 +157,7 @@ export default function Profile() {
         <div style={{marginBottom: '75px'}} className="user-shelves-container">
           {handleLoadShelf(shelves.have, 'No finished books yet')}
         </div>
-      </div>
+      </div> */}
       {bookSelfLink && <BookCardFull setBookSelfLink={setBookSelfLink} selfLink={bookSelfLink} />}
     </section>
   );

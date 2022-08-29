@@ -1,10 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700&display=swap");
-
-/* colors: #212529, #ced4da, #f8f9fa*/
 
 * {
   box-sizing: border-box;
-  /* outline: 1px solid red;*/
 }
 
 body {
@@ -66,51 +62,7 @@ body {
   font-size: 12px;
 }
 
-.user-shelves-header {
-  margin: 80px 20px 20px 20px;
-}
-
-.user-shelves-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 3rem;
-}
-
-.user-shelves-container {
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding-left: -30px;
-  scroll-behavior: smooth;
-  overflow-x: scroll;
-}
-
-.user-shelves-container::-webkit-scrollbar {
-  display: none; /* for Chrome, Safari, and Opera */
-}
-
-.user-shelves-card {
-  display: flex;
-  flex-direction: row;
-  background-color: #e6e7e9;
-
-  height: 400px;
-  min-width: 40%;
-  margin: 30px 40px 40px 40px;
-  color: rgb(2, 2, 2);
-  /* animation: slide 20s linear infinite;*/
-}
-
-.user-shelves-card:hover {
-  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
-}
-
-.user-clubs, .user-shelves {
+.user-clubs {
   font-size: xx-large;
 }
 

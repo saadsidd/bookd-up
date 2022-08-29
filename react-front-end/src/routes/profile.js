@@ -41,7 +41,7 @@ export default function Profile() {
           want: cleanUpShelf(res[1]),
           have: cleanUpShelf(res[2]),
         });
-        setIsLoading(false);
+        // setIsLoading(false);
       });
     })
     .catch(res => console.log(res));
@@ -129,9 +129,9 @@ export default function Profile() {
 
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
         <h1>My Bookshelves</h1>
-        <Bookshelf label="Currently Reading" />
-        <Bookshelf label="Want To Read" />
-        <Bookshelf label="Finished Reading" />
+        <Bookshelf label="Currently Reading" isLoading={isLoading} />
+        <Bookshelf label="Want To Read" isLoading={isLoading} />
+        <Bookshelf label="Finished Reading" isLoading={isLoading} />
       </div>
 
       {/* <div className="user-shelves-header">

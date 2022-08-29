@@ -23,6 +23,16 @@ $wall_translateZ: translateZ(100px);
   perspective-origin: 480px;
 }
 
+.shelf__books-holder {
+  position: absolute;
+  background-color: rgba(255, 0, 0, 0.3);
+  width: 781px;
+  height: 164px;
+  margin-top: 18px;
+  margin-left: 81px;
+  z-index: 1;
+}
+
 .shelf {
   position: relative;
   width: 200px;

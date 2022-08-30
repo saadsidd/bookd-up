@@ -1,5 +1,5 @@
 import React from "react";
-import './BookCard.scss';
+import './styles/BookCard.scss';
 
 export default function BookCard(props) {
 

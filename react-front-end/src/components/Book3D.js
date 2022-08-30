@@ -1,7 +1,7 @@
 import React, { Suspense, useRef, useState } from "react";
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { RepeatWrapping, TextureLoader } from "three";
-import './Book3D.scss';
+import './styles/Book3D.scss';
 
 function FrontCover(props) {
 

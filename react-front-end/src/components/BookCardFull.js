@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import { getBookBySelfLink } from "../helpers/booksAPI";
 import { addToClubCurrentBook, addToShelf } from "../helpers/database";
-import "./BookCardFull.scss";
+import "./styles/BookCardFull.scss";
 
 export default function BookCardFull(props) {
 

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import "./Nav.scss";
+import "./styles/Nav.scss";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import styled from "styled-components";

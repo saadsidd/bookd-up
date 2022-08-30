@@ -1,0 +1,32 @@
+.shelf-book__container {
+  position: relative;
+  display: flex;
+  height: 250px;
+
+  margin-left: 20px;
+  margin-right: 20px;
+  box-shadow: -5px -3px 20px, 5px 0px 20px;
+
+  cursor: pointer;
+}
+
+.shelf-book__info {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.85);
+  opacity: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+
+  color: white;
+  transition: 0.1s;
+}
+
+.shelf-book__info:hover {
+  opacity: 1;
+}

@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import Bookshelf from "../components/Bookshelf";
 import BookCard from "../components/BookCard";
+import ShelfBook from "../components/ShelfBook";
 import BookCardFull from "../components/BookCardFull";
 import Spinner from "../components/Spinner";
 import "./styles/profile.scss";
@@ -41,7 +42,7 @@ export default function Profile() {
           want: cleanUpShelf(res[1]),
           have: cleanUpShelf(res[2]),
         });
-        // setIsLoading(false);
+        setIsLoading(false);
       });
     })
     .catch(res => console.log(res));
@@ -68,10 +69,26 @@ export default function Profile() {
     });
   };
 
+  // const getShelfBooks = (shelf) => {
+  //   return shelf.map((book, index) => {
+  //     return (
+  //       <BookCard
+  //         key={index}
+  //         thumbnail={(book.imageLinks && book.imageLinks.thumbnail) || "images/no-book-thumbnail.png"}
+  //         title={book.title}
+  //         year={book.publishedDate.split("-")[0]}
+  //         author={book && book.authors && book.authors[0]}
+  //         selfLink={book && book.selfLink}
+  //         setBookSelfLink={setBookSelfLink}
+  //       />
+  //     );
+  //   });
+  // }
+
   const getShelfBooks = (shelf) => {
     return shelf.map((book, index) => {
       return (
-        <BookCard
+        <ShelfBook
           key={index}
           thumbnail={(book.imageLinks && book.imageLinks.thumbnail) || "images/no-book-thumbnail.png"}
           title={book.title}
@@ -127,11 +144,13 @@ export default function Profile() {
         {(clubs.joined && clubs.joined.length > 0 && getClubs(clubs.joined)) || <div style={{width: '500px'}}>Join a bookclub to meet other book lovers just like you!</div>}
       </div>
 
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '100px'}}>
         <h1>My Bookshelves</h1>
-        <Bookshelf label="Currently Reading" isLoading={isLoading} />
-        <Bookshelf label="Want To Read" isLoading={isLoading} />
-        <Bookshelf label="Finished Reading" isLoading={isLoading} />
+        <div style={{border: '3px solid black'}}>
+          <Bookshelf label="Currently Reading" isLoading={isLoading} books={shelves.current && getShelfBooks(shelves.current)} />
+          <Bookshelf label="Want To Read" isLoading={isLoading} books={shelves.want && getShelfBooks(shelves.want)} />
+          <Bookshelf label="Finished Reading" isLoading={isLoading} books={shelves.have && getShelfBooks(shelves.have)} />
+        </div>
       </div>
 
       {/* <div className="user-shelves-header">

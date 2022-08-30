@@ -4,10 +4,8 @@ import { cleanUpShelf, getBooksByISBN } from "../helpers/booksAPI";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import Bookshelf from "../components/Bookshelf";
-import BookCard from "../components/BookCard";
 import ShelfBook from "../components/ShelfBook";
 import BookCardFull from "../components/BookCardFull";
-import Spinner from "../components/Spinner";
 import "./styles/profile.scss";
 
 export default function Profile() {
@@ -69,22 +67,6 @@ export default function Profile() {
     });
   };
 
-  // const getShelfBooks = (shelf) => {
-  //   return shelf.map((book, index) => {
-  //     return (
-  //       <BookCard
-  //         key={index}
-  //         thumbnail={(book.imageLinks && book.imageLinks.thumbnail) || "images/no-book-thumbnail.png"}
-  //         title={book.title}
-  //         year={book.publishedDate.split("-")[0]}
-  //         author={book && book.authors && book.authors[0]}
-  //         selfLink={book && book.selfLink}
-  //         setBookSelfLink={setBookSelfLink}
-  //       />
-  //     );
-  //   });
-  // }
-
   const getShelfBooks = (shelf) => {
     return shelf.map((book, index) => {
       return (
@@ -99,17 +81,6 @@ export default function Profile() {
         />
       );
     });
-  }
-
-  const handleLoadShelf = (shelf, message) => {
-    if (isLoading) {
-      return <div style={{width: '110px', margin: 'auto', marginTop: '40px', marginBottom: '20px'}}><Spinner /></div>;
-    }
-    if (shelf && shelf.length > 0) {
-      return getShelfBooks(shelf);
-    } else {
-      return <div style={{width: '100%', textAlign: 'center'}}>{message}</div>;
-    }
   }
 
   return (
@@ -153,30 +124,6 @@ export default function Profile() {
         </div>
       </div>
 
-      {/* <div className="user-shelves-header">
-        <h1 className="user-shelves">My Shelves</h1>
-      </div> */}
-
-      {/* <div className="user-shelves-section">
-        <h2>Currently Reading</h2>
-        <div className="user-shelves-container">
-          {handleLoadShelf(shelves.current, 'Not currently reading a book')}
-        </div>
-      </div>
-
-      <div className="user-shelves-section">
-        <h2>Want to Read</h2>
-        <div className="user-shelves-container">
-          {handleLoadShelf(shelves.want, 'No books you want to read yet')}
-        </div>
-      </div>
-
-      <div className="user-shelves-section">
-        <h2>Finished Reading</h2>
-        <div style={{marginBottom: '75px'}} className="user-shelves-container">
-          {handleLoadShelf(shelves.have, 'No finished books yet')}
-        </div>
-      </div> */}
       {bookSelfLink && <BookCardFull setBookSelfLink={setBookSelfLink} selfLink={bookSelfLink} />}
     </section>
   );

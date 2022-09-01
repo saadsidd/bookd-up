@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import Button from "./Button";
 import "./styles/Nav.scss";
 
 export default function Nav() {
@@ -27,7 +28,7 @@ export default function Nav() {
           <Link to="/signup" className="nav-bar__item">Sign Up</Link>
         )}
         {user ? (
-          <button onClick={logout} type="submit" className="login-btn">Logout</button>
+          <Button text="Logout" handleClick={logout} />
         ) : (
           <Link to="/login" className="nav-bar__item">Login</Link>
         )}

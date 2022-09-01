@@ -5,7 +5,8 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import Bookshelf from "../components/Bookshelf";
 import ShelfBook from "../components/ShelfBook";
-import BookCardFull from "../components/BookCardFull";
+import BookInfoCard from "../components/BookInfoCard";
+import Button from '../components/Button'
 import "./styles/profile.scss";
 
 export default function Profile() {
@@ -22,8 +23,8 @@ export default function Profile() {
     }
 
     Promise.all([
-      axios.get(`/api/users/${user && user.id}/clubs`),
-      axios.get(`/api/users/${user && user.id}/shelves`)
+      axios.get(`/api/users/${user.id}/clubs`),
+      axios.get(`/api/users/${user.id}/shelves`)
     ]).then((res) => {
       setClubs(res[0].data);
 
@@ -53,14 +54,12 @@ export default function Profile() {
   const getClubs = (clubs) => {
     return clubs.map(club => {
       return (
-        <div key={club.id} className="user-club-details">
-          <div className="user-club-image">
-            <img className="bookclub-image" src={club.image_url || "images/default-club.png"} alt="Default" />
-          </div>
-          <div className="user-details-box">
+        <div key={club.id} className="profile__club-detail">
+          <div><img className="profile__club-image" src={club.image_url || "images/default-club.png"} alt="Club" /></div>
+          <div className="profile__club-details-container">
             <h4>{club.name}</h4>
             <p>{club.description}</p>
-            <Link className="club-links" to={`/club/${club.id}`}>Visit The Club!</Link>
+            <Link className="profile__club-link" to={`/club/${club.id}`}>Visit The Club!</Link>
           </div>
         </div>
       );
@@ -84,34 +83,30 @@ export default function Profile() {
   }
 
   return (
-    <section className=" profile-section">
-      <div className="profile-container">
-        <img className="profile-image" src="images/default-profile.png" alt="Default Profile" />
-        <h2 className="user-name">
-          {user && user.first_name} {user && user.last_name}
-        </h2>
+    <>
+      <div className="profile__banner">
+        <img className="profile__banner-image" src="images/default-profile.png" alt="Default Profile" />
+        <h1>{user && user.first_name} {user && user.last_name}</h1>
       </div>
 
-      <div className="user-club-header">
-        <h1 className="user-clubs">Created Club</h1>
+      <div className="profile__clubs-container">
+        <h1>Created Club</h1>
         {clubs.created && clubs.created.length === 0 && (
-          <div className="cta-box-profile">
+          <div>
             Looks like you haven't created a bookclub yet!
-            <button style={{width: '175px', marginTop: '30px'}} onClick={create} className="cta-button">
-              Start a Bookclub
-            </button>
+            <div className="profile__start-club-btn"><Button text="Start a Bookclub" handleClick={create} /></div>
           </div>
         )}
       </div>
 
-      <div className="user-club-section">
+      <div className="profile__clubs">
         {clubs.created && clubs.created.length > 0 && getClubs(clubs.created)}
       </div>
 
-      <div className="user-club-header">
-        <h1 className="user-clubs">Joined Clubs</h1>
+      <div className="profile__clubs-container">
+        <h1>Joined Clubs</h1>
       </div>
-      <div className="user-club-section">
+      <div className="profile__clubs">
         {(clubs.joined && clubs.joined.length > 0 && getClubs(clubs.joined)) || <div style={{width: '500px'}}>Join a bookclub to meet other book lovers just like you!</div>}
       </div>
 
@@ -124,7 +119,7 @@ export default function Profile() {
         </div>
       </div>
 
-      {bookSelfLink && <BookCardFull setBookSelfLink={setBookSelfLink} selfLink={bookSelfLink} />}
-    </section>
+      {bookSelfLink && <BookInfoCard setBookSelfLink={setBookSelfLink} selfLink={bookSelfLink} />}
+    </>
   );
 };

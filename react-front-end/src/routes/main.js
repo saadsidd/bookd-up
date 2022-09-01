@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import Button from "../components/Button";
 import "./styles/main.scss";
 
 
@@ -39,7 +40,7 @@ export default function MainPage() {
   };
 
   return (
-    <section className="main-contianer">
+    <section className="main-container">
       <div className="content">
         <div className="hero-section">
           <div className="hero-header-box">
@@ -56,9 +57,7 @@ export default function MainPage() {
             </span>
           </div>
           <div className="cta-box">
-            <button onClick={signup} className="cta-button">
-              Start a Bookclub
-            </button>
+            <Button text="Start a Bookclub" handleClick={signup} />
           </div>
         </div>
         <div className="hero-image-box">

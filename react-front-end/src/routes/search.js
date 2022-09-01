@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import BookCard from "../components/BookCard";
-import BookCardFull from "../components/BookCardFull";
+import SearchBook from "../components/SearchBook";
+import BookInfoCard from "../components/BookInfoCard";
 import { UserContext } from "../context/UserContext";
 import { cleanUpSearchResults, getBooksBySearch } from "../helpers/booksAPI";
 import Spinner from "../components/Spinner";
@@ -44,7 +44,7 @@ export default function Search() {
   const getResults = (results) => {
     return results.map((result, index) => {
       return (
-      <BookCard
+      <SearchBook
         key={index}
         thumbnail={(result.imageLinks && result.imageLinks.thumbnail) || "images/no-book-thumbnail.png"}
         title={result.title}
@@ -65,7 +65,7 @@ export default function Search() {
     }
     if (result.length === 0) {
       return (
-        <img style={{width: '400px', display: 'block', marginRight: 'auto', marginLeft: 'auto', marginTop: '75px', opacity: 0.5}} src="images/magnifying-glass.png" alt="Magnifying Glass"/>
+        <img style={{width: '400px', display: 'block', marginRight: 'auto', marginLeft: 'auto', marginTop: '75px'}} src="images/magnifying-glass.png" alt="Magnifying Glass"/>
       );
     }
   }
@@ -103,7 +103,7 @@ export default function Search() {
           Next
         </button>
       </div>
-      {bookSelfLink && <BookCardFull setBookSelfLink={setBookSelfLink} selfLink={bookSelfLink} />}
+      {bookSelfLink && <BookInfoCard setBookSelfLink={setBookSelfLink} selfLink={bookSelfLink} />}
     </>
   );
 }

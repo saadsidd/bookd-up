@@ -1,7 +1,7 @@
 import React from "react";
-import './styles/BookCard.scss';
+import './styles/SearchBook.scss';
 
-export default function BookCard(props) {
+export default function SearchBook(props) {
 
   const { thumbnail, title, year, author, selfLink, setBookSelfLink } = props;
 

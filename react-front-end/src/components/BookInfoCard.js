@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import { getBookBySelfLink } from "../helpers/booksAPI";
 import { addToClubCurrentBook, addToShelf } from "../helpers/database";
-import "./styles/BookCardFull.scss";
+import "./styles/BookInfoCard.scss";
 
-export default function BookCardFull(props) {
+export default function BookInfoCard(props) {
 
   const { user } = useContext(UserContext);
 

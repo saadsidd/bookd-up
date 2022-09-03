@@ -57,14 +57,19 @@ module.exports = (db) => {
   router.get('/:id/clubs', (req, res) => {
     Promise.all([
       db.query(`
-        SELECT id, name, description, image_url
+        SELECT bookclubs.*, count(members.user_id) as member_count
         FROM bookclubs
-        WHERE user_id = $1
+        LEFT JOIN members ON bookclubs.id = members.club_id
+        WHERE bookclubs.user_id = $1
+        GROUP BY bookclubs.id;
     `, [req.params.id]),
       db.query(`
-        SELECT id, name, description, image_url
+        SELECT bookclubs.*, count(members.user_id) as member_count
         FROM bookclubs
-        WHERE id IN (SELECT club_id FROM members WHERE user_id = $1) AND bookclubs.user_id <> $1
+        LEFT JOIN members ON bookclubs.id = members.club_id
+        WHERE bookclubs.id IN (SELECT club_id FROM members WHERE user_id = $1) AND bookclubs.user_id <> $1
+        GROUP BY bookclubs.id
+        ORDER BY member_count DESC
     `, [req.params.id])
     ])
       .then(data => res.json({created: data[0].rows, joined: data[1].rows}))
@@ -99,10 +104,7 @@ module.exports = (db) => {
         VALUES ($1, $2)
     `, [req.params.id, req.body.isbn])
     ])
-      .then(data => {
-        console.log(data);
-        res.sendStatus(200);
-      })
+      .then(() => res.sendStatus(200))
       .catch(error => res.status(500).json({error: error.message}));
   });
 

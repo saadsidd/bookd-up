@@ -1,6 +1,6 @@
 import React from "react";
 import './styles/Bookshelf.scss';
-import Spinner from "./Spinner";
+import BookLoader from './BookLoader';
 
 export default function Bookshelf(props) {
 
@@ -10,7 +10,7 @@ export default function Bookshelf(props) {
     <div className="shelf__container--outer">
       <div className="shelf__container--inner">
         <div className="shelf__books-holder">
-          {isLoading && <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%'}}><Spinner /></div>}
+          {isLoading && <div className="shelf__loader-container"><BookLoader /></div>}
           {!isLoading && books}
         </div>
         <div className="shelf">

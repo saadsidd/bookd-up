@@ -3,16 +3,18 @@ import axios from "axios";
 import { cleanUpShelf, getBooksByISBN } from "../helpers/booksAPI";
 import { UserContext } from "../context/UserContext";
 import { useNavigate, useParams } from "react-router-dom";
+import Button from "../components/Button";
+import ShelfBook from "../components/ShelfBook";
 import "./styles/club.scss";
 
 export default function Club() {
   const { id } = useParams();
-  console.log(id);
 
   const [bookclub, setBookclub] = useState({});
+  const [alreadyJoined, setAlreadyJoined] = useState();
   const [currentBook, setCurrentBook] = useState([]);
   const [finishedBooks, setFinishedBooks] = useState([]);
-  const [alreadyJoined, setAlreadyJoined] = useState();
+  const [bookSelfLink, setBookSelfLink] = useState();
   const [isAdmin, setIsAdmin] = useState(false);
   const { user } = useContext(UserContext);
 
@@ -24,9 +26,6 @@ export default function Club() {
           setAlreadyJoined(true);
         }
       }
-      console.log('resssss: ', res);
-      console.log(bookclub);
-      console.log(user);
 
       // Send ISBNs to helper function and get back promises to get data from book API
       Promise.all([
@@ -34,12 +33,12 @@ export default function Club() {
         getBooksByISBN(res.data.finished),
       ]).then((res) => {
         setCurrentBook(cleanUpShelf(res[0]));
-        console.log("current book", res[0]);
         setFinishedBooks(cleanUpShelf(res[1]));
       });
     });
   }, []);
 
+  // Check if user is creator to allow for picking/moving bookclub books
   useEffect(() => {
     if (bookclub.creator && user.id === bookclub.creator.id) {
       setIsAdmin(true);
@@ -57,26 +56,16 @@ export default function Club() {
   const getFinishedBooks = (finished) => {
     return finished.map((book, index) => {
       return (
-        <div
-          key={index}
-          style={{
-            border: "1px solid black",
-            width: "200px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            marginBottom: '20px',
-            paddingTop: '20px'
-          }}
-        >
-          <div>
-            {<img src={book.imageLinks.thumbnail} alt="Current Book" />}
-          </div>
-          <p>
-            <b>{book.title}</b>
-          </p>
-          <p>{`by ${book.authors[0]}`}</p>
+        <div className="club__finished-book">
+          <ShelfBook
+            key={index}
+            thumbnail={book.imageLinks.thumbnail}
+            title={book.title}
+            year={book.publishedDate.split("-")[0]}
+            author={book.authors && book.authors[0]}
+            selfLink={book.selfLink}
+            setBookSelfLink={setBookSelfLink}
+          />
         </div>
       );
     });
@@ -94,93 +83,80 @@ export default function Club() {
     });
   }
 
-  const finish = () => {
-    console.log("Finished");
+  const moveToFinished = () => {
     axios.post(`/api/clubs/${bookclub.club.id}/complete`, {
         isbn: currentBook[0].industryIdentifiers[0].identifier,
       })
       .then((res) => {
         //clicking finished will remove the current read for BC to the finished
-        console.log(res);
         setFinishedBooks([currentBook[0], ...finishedBooks]);
         setCurrentBook([]);
-        // console.log(finishedBooks);
       });
   };
 
   const navigate = useNavigate();
-  const add = () => {
+  const pickNewBook = () => {
     navigate("/search");
   };
 
   return (
-    <div>
-      <div className="club-header">
-        <img
-          className="default-bookclub-img"
-          src={(bookclub && bookclub.club && bookclub.club.image_url) || "../images/default-club.png"}
-          alt="Default Club"
-        />
-        <div className="club-header-text">
-          <h1 className="club-name">{bookclub.club && bookclub.club.name}</h1>
-          <p className="club-description">
-            {bookclub.club && <em>{bookclub.club.description}</em>}
-          </p>
-          <h4 className="creator">
-            {bookclub.creator &&
-              `Created by: ${bookclub.creator.first_name} ${bookclub.creator.last_name}`}
-          </h4>
-          {!alreadyJoined && <button className="join-club" onClick={handleJoinClub}>Join Club</button>}
+    <>
+      <div className="club__banner">
+        <div className="club__banner-image-container">
+          <img
+            className="club__banner-image"
+            src={(bookclub && bookclub.club && bookclub.club.image_url) || "../images/default-club.png"}
+            alt="Default Club"
+          />
+        </div>
+        <div className="club__banner-info">
+          <h1>{bookclub.club && bookclub.club.name}</h1>
+          <p className="club__banner-description">{bookclub.club && <em>{bookclub.club.description}</em>}</p>
+          <h4>{bookclub.creator && `Created by ${bookclub.creator.first_name} ${bookclub.creator.last_name}`}</h4>
+          {!alreadyJoined && <Button text="Join Club" handleClick={handleJoinClub} />}
         </div>
       </div>
-      <div className="club-body">
-        <h3 className="members-count">
+      <div className="club__container">
+        <h1>
           Members {`(${bookclub.club && bookclub.club.member_count})`}
-        </h3>
+        </h1>
         {(bookclub.members && bookclub.members.length > 0 && (
-          <ul className="members">{getMembers(bookclub.members)}</ul>
+          <ul className="club__members">{getMembers(bookclub.members)}</ul>
         )) || <p>No members yet</p>}
 
-        <div className="current-books">
-          <h1>Currently reading</h1>
-          <div className="current-books-box">
-            {currentBook.length > 0 && (
-              <img
-                src={currentBook[0].imageLinks.thumbnail}
-                alt="Current Book"
-              />
-            )}
-            <p>
-              <b>{currentBook.length > 0 && currentBook[0].title}</b>
-            </p>
-            <p>
-              {(currentBook.length > 0 && `by ${currentBook[0].authors[0]}`) ||
-                <div style={{padding: '20px', transform: 'translateY(-20px)'}}>Not currently reading a book</div>}
-            </p>
+        <h1>Currently reading</h1>
+        <div className="club__current-book">
+          {(currentBook.length > 0 &&
+          <ShelfBook
+            thumbnail={currentBook[0].imageLinks.thumbnail}
+            title={currentBook[0].title}
+            year={currentBook[0].publishedDate.split("-")[0]}
+            author={currentBook[0].authors && currentBook[0].authors[0]}
+            selfLink={currentBook[0].selfLink}
+            setBookSelfLink={setBookSelfLink}
+          />) ||
+          <p>Not currently reading a book</p>}
+
+          {isAdmin && (
+            <div className="club__pick-or-finished-btn">
+              {currentBook.length > 0 ? (
+                <Button text="Move To Finished" handleClick={moveToFinished} />
+              ) : (
+                <Button text="Pick A New Book" handleClick={pickNewBook} />
+              )}
+            </div>
+          )}
           </div>
 
-        {isAdmin && (
-          <div className="finished-or-pick-btn">
-            {currentBook.length > 0 ? (
-              <button onClick={finish} className="cta-button">
-                Move To Finished
-              </button>
-            ) : (
-              <button onClick={add} className="cta-button">
-                Pick A New Book
-              </button>
-            )}
+          <h1>Finished reading</h1>
+          <div className="club__finished-books">
+            {(finishedBooks.length > 0 && getFinishedBooks(finishedBooks)) ||
+              <p>No finished books</p>}
           </div>
-        )}
 
-        </div>
       </div>
 
-      <div className="cta-box">
-        <h1>Finished reading:</h1>
-        {(finishedBooks.length > 0 && getFinishedBooks(finishedBooks)) ||
-          "No finished books"}
-      </div>
-    </div>
+
+    </>
   );
 }

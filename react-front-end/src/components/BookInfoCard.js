@@ -16,7 +16,6 @@ export default function BookInfoCard(props) {
   useEffect(() => {
     getBookBySelfLink(selfLink)
     .then(res => {
-      console.log(res);
       setBook(res.data.volumeInfo);
       setShowCard('--show');
       setShowShelves('');

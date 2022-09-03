@@ -25,9 +25,7 @@ export default function SignUp() {
         setUser(res.data.user);
         navigate("/profile");
       })
-      .catch((err) => {
-        console.log("ERROR: ", err);
-      });
+      .catch(error => console.log(error));
   };
 
   return (

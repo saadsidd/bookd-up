@@ -20,7 +20,6 @@ export default function Match() {
     }
   }, []);
 
-
   const [genre, setGenre] = useState();
   const [results, setResults] = useState();
   const [resultsChanged, setResultsChanged] = useState(false);
@@ -57,6 +56,7 @@ export default function Match() {
   }
 
   const handlePickGenre = (category) => {
+    // If current genre already selected, do nothing
     if (genre === category) return;
     setLikeOrSkip('');
     setGenre(category);
@@ -97,15 +97,15 @@ export default function Match() {
 
   return (
     <>
-      <div className="tag-line">🔥 <em>Ignite your passion for reading!</em></div>
-      <div className="main">
+      <div className="matchbook__tag-line">🔥 <em>Ignite your passion for reading!</em></div>
+      <div className="matchbook__main-container">
         <div className="genres-container">
           Pick a genre:
           {getGenres(Object.keys(genres))}
         </div>
-        <div className="matchbook-container">
+        <div className="matchbook__container">
           <div className={`loading-cover${show} ${likeOrSkip}`}><img className="loading-cover-icon" src={coverBookIcon} alt="Cover Book Icon"></img></div>
-          <div className="canvas-container">
+          <div className="matchbook__canvas-container">
             <Book3D coverImage={(book && book.imageLinks && book.imageLinks.thumbnail) || 'images/no-book-thumbnail.png'} pages={(book && book.pageCount) || 300} dominantColor={dominantColor} />
             {/* <Book3D coverImage={'images/no-book-thumbnail.png'} pages={(book && book.pageCount) || 300} dominantColor={dominantColor} /> */}
           </div>
@@ -119,8 +119,8 @@ export default function Match() {
               <div className="basic-info-description" dangerouslySetInnerHTML={{__html: (book && book.description) || 'No description'}}></div>
             </header>
             <footer className="icons-container">
-              <div className="skip" onClick={() => handleSkipBook()}></div>
-              <div className="like" onClick={() => handleLikeBook()}></div>
+              <div className="skip-icon" onClick={() => handleSkipBook()}></div>
+              <div className="like-icon" onClick={() => handleLikeBook()}></div>
             </footer>
         </div>
       </div>

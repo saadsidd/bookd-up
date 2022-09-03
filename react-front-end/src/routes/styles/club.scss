@@ -1,85 +1,74 @@
-.club-header {
+@mixin set-book-shadow {
+  & > .shelf-book__container {
+    box-shadow: 8px 8px 10px 0px grey;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+.club__banner {
   display: flex;
-  flex-direction: row;
   align-items: center;
   background-color: #f5f3f4;
   margin-top: 80px;
   padding: 50px;
 }
 
-.club-header-text {
+.club__banner-image-container {
+  width: 200px;
+  height: 200px;
+}
+
+.club__banner-image {
+  width: inherit;
+  height: inherit;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.club__banner-info {
   margin-left: 30px;
+
+  & > h1 {
+    font-size: 60px;
+    margin: 0;
+  }
 }
 
-.club-name {
-  font-size: 60px;
-  margin: 0;
-}
-
-.club-description {
+.club__banner-description {
   margin-top: 5px;
   font-size: 20px;
 }
 
-.creator {
-  margin-top: 5px;
+.club__container {
+  padding-left: 50px;
+  & > h1 {
+    margin-top: 50px;
+  }
 }
 
-.club-body {
-  padding: 50px 50px 0px 50px;
-}
-
-.members-count {
-  font-size: 30px;
-  margin: 0;
-}
-
-.members {
+.club__members {
   font-size: 18px;
-  margin-top: 10px;
 }
 
-.current-books-box {
-  width: 200px;
-  border: 1px solid black;
+.club__current-book {
+  width: fit-content;
+  @include set-book-shadow;
+}
+
+.club__pick-or-finished-btn {
+  margin-top: 30px;
+}
+
+.club__finished-books {
+  width: 1300px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding-top: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 100px;
 }
 
-.current-books {
-  margin-top: 40px;
-}
-
-.default-bookclub-img {
-  border-radius: 50%;
-  width: 200px;
-}
-
-.cta-box {
-  padding: 50px 50px 0px 50px;
-}
-
-.join-club {
-  margin-top: 40px;
-  background-color: #212529;
-  color: #fff;
-  font-size: 15px;
-  padding: 10px 20px;
-  box-shadow: none;
-  border: none;
-  border-radius: 5px;
-}
-
-.join-club:hover {
-  background-color: #fff;
-  color: #212529;
-  cursor: pointer;
-  border: 0.5px solid #212529;
-}
-
-.finished-or-pick-btn {
-  margin-top: 20px;
+.club__finished-book {
+  margin-right: 30px;
+  margin-bottom: 30px;
+  @include set-book-shadow;
 }

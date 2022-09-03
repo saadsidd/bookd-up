@@ -4,7 +4,8 @@ import SearchBook from "../components/SearchBook";
 import BookInfoCard from "../components/BookInfoCard";
 import { UserContext } from "../context/UserContext";
 import { cleanUpSearchResults, getBooksBySearch } from "../helpers/booksAPI";
-import Spinner from "../components/Spinner";
+import Button from '../components/Button';
+import BookLoader from '../components/BookLoader';
 import "./styles/search.scss";
 
 export default function Search() {
@@ -26,17 +27,19 @@ export default function Search() {
   const [isLoading, setIsLoading] = useState(false);
 
   const startSearch = () => {
+    setResult([]);
     setIsLoading(true);
     getBooksBySearch(search, page, filter)
     .then(res => {
-      setResult(cleanUpSearchResults(res.data.items));
-      setIsLoading(false);
+      setTimeout(() => {
+        setResult(cleanUpSearchResults(res.data.items));
+        setIsLoading(false);
+      }, 1000);
     });
   };
 
   useEffect(() => {
-    if (search){
-      setResult([]);
+    if (search) {
       startSearch();
     }
   }, [page]);
@@ -60,7 +63,7 @@ export default function Search() {
   const checkSearchStatus = () => {
     if (isLoading && result.length === 0) {
       return (
-        <div style={{width: '180px', margin: 'auto', marginTop: '150px'}}><Spinner /></div>
+        <div style={{width: '180px', margin: 'auto', marginTop: '150px'}}><BookLoader /></div>
       );
     }
     if (result.length === 0) {
@@ -72,17 +75,15 @@ export default function Search() {
 
   return (
     <>
-      <div className="search-container">
+      <div className="search__container">
         <h2 style={{marginRight: '140px'}}>Find a book:</h2>
-        <form className="search-form" onSubmit={event => event.preventDefault()} autoComplete="off">
-          <input placeholder="Search" value={search} onChange={event => setSearch(event.target.value)}/>
-          <div className="button-box">
-            <button className="search-buttons" onClick={startSearch}>
-              Search
-            </button>
+        <form className="search__form" onSubmit={event => event.preventDefault()} autoComplete="off">
+          <input className="search__input" placeholder="Search" value={search} onChange={event => setSearch(event.target.value)}/>
+          <div className="search__btn-container">
+            <Button text="Search" handleClick={startSearch} />
           </div>
         </form>
-        <div className="filters-container">
+        <div className="search__filters-container">
           <input defaultChecked type="radio" name="filter" onClick={() => setFilter('')}/>All&nbsp;&nbsp;&nbsp;&nbsp;
           <input type="radio" name="filter" onClick={() => setFilter('intitle:')}/>Title&nbsp;&nbsp;&nbsp;&nbsp;
           <input type="radio" name="filter" onClick={() => setFilter('subject:')}/>Genre&nbsp;&nbsp;&nbsp;&nbsp;
@@ -92,17 +93,14 @@ export default function Search() {
 
       {checkSearchStatus()}
 
-      <div className="results-container">{result.length > 0 && getResults(result)}</div>
+      <div className="results__container">{result.length > 0 && getResults(result)}</div>
       
-      <div className={`pagination-btn${result.length > 0 ? '--show' : ''}`}>
-        <button className="search-buttons" onClick={() => page > 1 ? setPage(page - 1) : null}>
-          Prev
-        </button>
-        <span style={{fontWeight: '800'}}>{page}</span>
-        <button className="search-buttons" onClick={() => setPage(page + 1)}>
-          Next
-        </button>
+      <div className={`results__pagination-btn${result.length > 0 ? '--show' : ''}`}>
+        <Button text="Prev" handleClick={() => page > 1 ? setPage(page - 1) : null} />
+        <span style={{fontWeight: '800', margin: '20px'}}>{page}</span>
+        <Button text="Next" handleClick={() => setPage(page + 1)} />
       </div>
+
       {bookSelfLink && <BookInfoCard setBookSelfLink={setBookSelfLink} selfLink={bookSelfLink} />}
     </>
   );

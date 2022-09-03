@@ -17,7 +17,8 @@ module.exports = (db) => {
 
     let club, members, creator, finished;
 
-    // Get club, members, then creator
+    // Get club + members count, then members names, then finished books
+    // After promise all resolves get club creator name
     Promise.all([
       db.query(`
         SELECT bookclubs.*, count(members.user_id) as member_count
@@ -77,12 +78,13 @@ module.exports = (db) => {
       req.body['user_id'],
       req.body['name'],
       req.body['description'],
-      req.body['private']
+      req.body['private'],
+      req.body['image_url']
     ];
 
     db.query(`
-      INSERT INTO bookclubs (user_id, name, description, private)
-      VALUES ($1, $2, $3, $4) RETURNING id;
+      INSERT INTO bookclubs (user_id, name, description, private, image_url)
+      VALUES ($1, $2, $3, $4, $5) RETURNING id;
     `, params)
       .then(data => {
         return db.query(`

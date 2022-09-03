@@ -2,11 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import { cleanUpShelf, getBooksByISBN } from "../helpers/booksAPI";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Bookshelf from "../components/Bookshelf";
 import ShelfBook from "../components/ShelfBook";
 import BookInfoCard from "../components/BookInfoCard";
-import Button from '../components/Button'
+import Button from '../components/Button';
+import ClubCard from "../components/ClubCard";
 import "./styles/profile.scss";
 
 export default function Profile() {
@@ -27,8 +28,8 @@ export default function Profile() {
       axios.get(`/api/users/${user.id}/shelves`)
     ]).then((res) => {
       setClubs(res[0].data);
-
       setIsLoading(true);
+
       // Send ISBNs to helper function and get back promises to get data from book API
       Promise.all([
         getBooksByISBN(res[1].data.current),
@@ -44,7 +45,7 @@ export default function Profile() {
         setIsLoading(false);
       });
     })
-    .catch(res => console.log(res));
+    .catch(error => console.log(error));
   }, []);
 
   const create = () => {
@@ -54,14 +55,14 @@ export default function Profile() {
   const getClubs = (clubs) => {
     return clubs.map(club => {
       return (
-        <div key={club.id} className="profile__club-detail">
-          <div><img className="profile__club-image" src={club.image_url || "images/default-club.png"} alt="Club" /></div>
-          <div className="profile__club-details-container">
-            <h4>{club.name}</h4>
-            <p>{club.description}</p>
-            <Link className="profile__club-link" to={`/club/${club.id}`}>Visit The Club!</Link>
-          </div>
-        </div>
+        <ClubCard
+          key={club.id}
+          id={club.id}
+          imageURL={club.image_url || "images/default-club.png"}
+          name={club.name}
+          memberCount={club.member_count}
+          description={club.description}
+        />
       );
     });
   };
@@ -110,7 +111,7 @@ export default function Profile() {
         {(clubs.joined && clubs.joined.length > 0 && getClubs(clubs.joined)) || <div style={{width: '500px'}}>Join a bookclub to meet other book lovers just like you!</div>}
       </div>
 
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '100px'}}>
+      <div className="profile__bookshelves-container">
         <h1>My Bookshelves</h1>
         <div style={{border: '3px solid black'}}>
           <Bookshelf label="Currently Reading" isLoading={isLoading} books={shelves.current && getShelfBooks(shelves.current)} />

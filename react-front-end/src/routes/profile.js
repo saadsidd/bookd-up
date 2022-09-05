@@ -93,9 +93,9 @@ export default function Profile() {
       <div className="profile__clubs-container">
         <h1>Created Club</h1>
         {clubs.created && clubs.created.length === 0 && (
-          <div>
+          <div className="profile__start-club-btn">
             Looks like you haven't created a bookclub yet!
-            <div className="profile__start-club-btn"><Button text="Start a Bookclub" handleClick={create} /></div>
+            <Button text="Start a Bookclub" handleClick={create} />
           </div>
         )}
       </div>

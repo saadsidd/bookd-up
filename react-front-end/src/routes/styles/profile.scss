@@ -11,20 +11,23 @@
   margin: 20px;
 }
 
-.profile__start-club-btn {
-  width: 200px;
-  margin-top: 20px;
+.profile__clubs-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.profile__clubs-container {
-  margin: 20px;
-  margin-left: 30px;
+.profile__start-club-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
 }
 
 .profile__clubs {
-  width: 1300px;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   margin: 20px;
 }
 

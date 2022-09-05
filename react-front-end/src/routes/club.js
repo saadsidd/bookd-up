@@ -56,9 +56,8 @@ export default function Club() {
   const getFinishedBooks = (finished) => {
     return finished.map((book, index) => {
       return (
-        <div className="club__finished-book">
+        <div key={index} className="club__finished-book">
           <ShelfBook
-            key={index}
             thumbnail={book.imageLinks.thumbnail}
             title={book.title}
             year={book.publishedDate.split("-")[0]}

@@ -9,10 +9,6 @@ $info_corner_color: #B5838D;
   overflow: hidden;
   box-shadow: 1px 1px 7.5px 0px black;
 
-  &:hover > .club-card__info {
-    transform: translateY(-250px);
-  }
-
   &:hover .club-card__description {
     opacity: 1;
   }
@@ -41,6 +37,10 @@ $info_corner_color: #B5838D;
 
   transform: translateY(-40px);
   transition: 0.5s;
+
+  &:hover {
+    transform: translateY(-250px);
+  }
 }
 
 .club-card__name {

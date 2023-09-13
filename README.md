@@ -48,7 +48,7 @@ MatchBook🔥 is a Tinder-like feature for books, where the user is presented wi
 - React
 - react-router-dom
 - Axios
-- Sass
+- SCSS
 - react-three-fiber
 - color-thief-react
 
